@@ -35,6 +35,10 @@ export function ComplaintList({ onOpenReportDialog }: ComplaintListProps) {
   const timeOffsetHours = useComplaintStore((state) => state.timeOffsetHours)
   const formulaMode = useComplaintStore((state) => state.formulaMode)
   const tieBreakOrder = useComplaintStore((state) => state.tieBreakOrder)
+  const selectedComplaintId = useComplaintStore((state) => state.selectedComplaintId)
+  const setSelectedComplaintId = useComplaintStore(
+    (state) => state.setSelectedComplaintId
+  )
   const setCategoryFilter = useComplaintStore((state) => state.setCategoryFilter)
   const setStatusFilter = useComplaintStore((state) => state.setStatusFilter)
   const setSearchQuery = useComplaintStore((state) => state.setSearchQuery)
@@ -201,18 +205,24 @@ export function ComplaintList({ onOpenReportDialog }: ComplaintListProps) {
             const fontVar =
               scoreVal !== null ? getThermalFontVariation(scoreVal) : null
 
+            const isSelected = selectedComplaintId === complaint.id
+
             return (
               <motion.div
+                id={`complaint-row-${complaint.id}`}
                 key={complaint.id}
                 layout
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.2 }}
-                className={`bg-[#181342] hover:bg-[#1C174D] rounded-2xl border transition-all p-4 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-lg shadow-black/20 ${
-                  complaint.status === 'Resolved'
-                    ? 'border-[#3FD0C9]/20'
-                    : 'border-[#E9E4FF]/12 hover:border-[#E9E4FF]/25'
+                onClick={() => setSelectedComplaintId(isSelected ? null : complaint.id)}
+                className={`rounded-2xl border transition-all duration-200 p-4 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-lg shadow-black/20 ${
+                  isSelected
+                    ? 'bg-[#1F1954] border-[#FFD23F] ring-2 ring-[#FFD23F]/50 shadow-[0_0_25px_rgba(255,210,63,0.2)]'
+                    : complaint.status === 'Resolved'
+                    ? 'bg-[#181342] hover:bg-[#1C174D] border-[#3FD0C9]/20'
+                    : 'bg-[#181342] hover:bg-[#1C174D] border-[#E9E4FF]/12 hover:border-[#E9E4FF]/25'
                 }`}
               >
                 {/* Left Block: Score / Status Badge + Details */}

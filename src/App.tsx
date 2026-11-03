@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Header } from '@/components/Header'
 import { SummaryStrip } from '@/components/SummaryStrip'
+import { PriorityQueue } from '@/components/PriorityQueue'
 import { FilterBar } from '@/components/FilterBar'
 import { ComplaintList } from '@/components/ComplaintList'
 import { ComplaintFormDialog } from '@/components/ComplaintFormDialog'
@@ -81,7 +82,10 @@ export default function App() {
         {/* 1. Summary Telemetry Strip (Block B4) */}
         <SummaryStrip />
 
-        {/* 2. Combined Search & Filter Bar (Block B4) */}
+        {/* 2. "Hottest right now" Top-3 Priority Queue (Block B5) */}
+        <PriorityQueue />
+
+        {/* 3. Combined Search & Filter Bar (Block B4) */}
         <FilterBar />
 
         {/* 3. Interactive Complaint List (Block B4) */}
