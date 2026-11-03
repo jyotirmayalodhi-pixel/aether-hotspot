@@ -1,0 +1,147 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/anybody/wdth.css";
+@import "@fontsource-variable/instrument-sans";
+
+@theme {
+  --font-sans: 'Instrument Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Anybody Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Anybody Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --color-night-lens: #0D0A26;
+  --color-cold-glass: #181342;
+  --color-frost: #E9E4FF;
+  --color-mist: #A79FD6;
+  --color-cool-mint: #3FD0C9;
+
+  --color-thermal-0: #2A1B8C;
+  --color-thermal-1: #7A2BC9;
+  --color-thermal-2: #E5237A;
+  --color-thermal-3: #FF7A18;
+  --color-thermal-4: #FFD23F;
+  --color-thermal-5: #FFF4D6;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+}
+
+:root {
+  --background: #0D0A26;
+  --foreground: #E9E4FF;
+  --card: #181342;
+  --card-foreground: #E9E4FF;
+  --popover: #181342;
+  --popover-foreground: #E9E4FF;
+  --primary: #3FD0C9;
+  --primary-foreground: #0D0A26;
+  --secondary: #1F1A52;
+  --secondary-foreground: #E9E4FF;
+  --muted: #1F1A52;
+  --muted-foreground: #A79FD6;
+  --accent: #261F63;
+  --accent-foreground: #E9E4FF;
+  --destructive: #E5237A;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(233, 228, 255, 0.12);
+  --input: rgba(233, 228, 255, 0.16);
+  --ring: #3FD0C9;
+  --radius: 0.625rem;
+
+  /* Night Lens Color Hexes */
+  --night-lens: #0D0A26;
+  --cold-glass: #181342;
+  --frost: #E9E4FF;
+  --mist: #A79FD6;
+  --cool-mint: #3FD0C9;
+
+  /* Thermal Heat Ramp (6 stops) */
+  --thermal-0: #2A1B8C;
+  --thermal-1: #7A2BC9;
+  --thermal-2: #E5237A;
+  --thermal-3: #FF7A18;
+  --thermal-4: #FFD23F;
+  --thermal-5: #FFF4D6;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.font-anybody {
+  font-family: 'Anybody Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-optical-sizing: auto;
+}
+
+.font-instrument {
+  font-family: 'Instrument Sans Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Cold Glass Surface Utility */
+.cold-glass-card {
+  background-color: #181342;
+  border: 1px solid rgba(233, 228, 255, 0.12);
+  backdrop-filter: blur(12px);
+}
+
+/* Soft CSS Pulse Ring for Raised Status */
+@keyframes thermal-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.3;
+  }
+}
+
+/* Steady CSS Rotate Ring for In Progress Status */
+@keyframes thermal-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-thermal-pulse {
+  animation: thermal-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-thermal-rotate {
+  animation: thermal-rotate 4s linear infinite;
+}
