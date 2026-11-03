@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { Header } from '@/components/Header'
+import { TimeMachineBar } from '@/components/TimeMachineBar'
 import { SummaryStrip } from '@/components/SummaryStrip'
+import { CampusThermalMap } from '@/components/CampusThermalMap'
 import { PriorityQueue } from '@/components/PriorityQueue'
 import { FilterBar } from '@/components/FilterBar'
 import { ComplaintList } from '@/components/ComplaintList'
 import { ComplaintFormDialog } from '@/components/ComplaintFormDialog'
 import { ScoringExplainerDialog } from '@/components/ScoringExplainerDialog'
 import { ConfirmResetDialog } from '@/components/ConfirmResetDialog'
+import { DataImportModal } from '@/components/DataImportModal'
 import { ToastContainer, type ToastMessage } from '@/components/Toast'
 import { useComplaintStore, useStoreSync } from '@/store'
 import type { Category } from '@/domain'
@@ -21,6 +24,7 @@ export default function App() {
   const [isReportOpen, setIsReportOpen] = useState(false)
   const [isExplainerOpen, setIsExplainerOpen] = useState(false)
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false)
+  const [isImportExportOpen, setIsImportExportOpen] = useState(false)
   const [initialFormCategory, setInitialFormCategory] = useState<Category | ''>('')
   const [initialFormDescription, setInitialFormDescription] = useState<string>('')
 
@@ -76,19 +80,32 @@ export default function App() {
           onOpenExplainerDialog={() => setIsExplainerOpen(true)}
           onTriggerInvalidFormDemo={handleTriggerInvalidFormDemo}
           onRequestResetConfirmation={() => setIsResetConfirmOpen(true)}
+          onOpenImportExportDialog={() => setIsImportExportOpen(true)}
           onToast={addToast}
         />
 
-        {/* 1. Summary Telemetry Strip (Block B4) */}
+        {/* 1. Fast-Forward Time Machine Simulation Bar (Block B7) */}
+        <TimeMachineBar />
+
+        {/* 2. Summary Telemetry Strip (Block B4) */}
         <SummaryStrip />
 
-        {/* 2. "Hottest right now" Top-3 Priority Queue (Block B5) */}
-        <PriorityQueue />
+        {/* 3. Hero Dashboard Grid: Campus Thermal Map (Left) + Top-3 Priority Queue (Right) (Block B6) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="lg:col-span-7 xl:col-span-7">
+            <CampusThermalMap />
+          </div>
+          <div className="lg:col-span-5 xl:col-span-5">
+            <PriorityQueue />
+          </div>
+        </div>
 
-        {/* 3. Combined Search & Filter Bar (Block B4) */}
-        <FilterBar />
+        {/* 4. Combined Search & Filter Bar (Block B4) */}
+        <div id="complaint-list-anchor">
+          <FilterBar />
+        </div>
 
-        {/* 3. Interactive Complaint List (Block B4) */}
+        {/* 5. Interactive Complaint List (Block B4) */}
         <ComplaintList onOpenReportDialog={handleOpenNormalReport} />
 
         {/* Dialogs */}
@@ -117,6 +134,12 @@ export default function App() {
               type: 'info',
             })
           }}
+        />
+
+        <DataImportModal
+          isOpen={isImportExportOpen}
+          onClose={() => setIsImportExportOpen(false)}
+          onToast={addToast}
         />
 
         {/* Floating Toasts */}

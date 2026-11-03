@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   PlusCircle,
   AlertCircle,
+  Database,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useComplaintStore } from '@/store'
@@ -19,6 +20,7 @@ interface HeaderProps {
   onOpenExplainerDialog: () => void
   onTriggerInvalidFormDemo: () => void
   onRequestResetConfirmation: () => void
+  onOpenImportExportDialog: () => void
   onToast: (msg: { title: string; description?: string; type?: 'success' | 'error' | 'info' }) => void
 }
 
@@ -27,6 +29,7 @@ export function Header({
   onOpenExplainerDialog,
   onTriggerInvalidFormDemo,
   onRequestResetConfirmation,
+  onOpenImportExportDialog,
   onToast,
 }: HeaderProps) {
   const searchQuery = useComplaintStore((state) => state.searchQuery)
@@ -199,6 +202,18 @@ export function Header({
                 >
                   <AlertTriangle className="w-3.5 h-3.5 text-[#E5237A]" />
                   <span>Trigger Invalid Form Demo</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setJudgeMenuOpen(false)
+                    onOpenImportExportDialog()
+                  }}
+                  className="w-full text-left px-2.5 py-2 rounded-lg text-xs text-[#E9E4FF] hover:bg-[#261F63] hover:text-[#FFD23F] flex items-center gap-2 transition-colors cursor-pointer"
+                  role="menuitem"
+                >
+                  <Database className="w-3.5 h-3.5 text-[#FFD23F]" />
+                  <span>Import / Export Data (CSV & JSON)</span>
                 </button>
               </div>
             )}

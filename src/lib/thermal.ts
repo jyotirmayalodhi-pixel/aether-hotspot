@@ -44,3 +44,41 @@ export function getThermalFontVariation(score: number) {
     },
   }
 }
+
+/**
+ * Precomputed 256-entry RGBA lookup table for offscreen thermal canvas mapping.
+ */
+let cachedLut: Uint8ClampedArray | null = null
+
+export function getThermalLookupTable(): Uint8ClampedArray {
+  if (cachedLut) return cachedLut
+
+  const lut = new Uint8ClampedArray(256 * 4)
+  const stops = [
+    [42, 27, 140],   // 0: #2A1B8C
+    [122, 43, 201],  // 1: #7A2BC9
+    [229, 35, 122],  // 2: #E5237A
+    [255, 122, 24],  // 3: #FF7A18
+    [255, 210, 63],  // 4: #FFD23F
+    [255, 244, 214], // 5: #FFF4D6
+  ]
+
+  for (let i = 0; i < 256; i++) {
+    const position = (i / 255) * (stops.length - 1)
+    const idx = Math.min(stops.length - 2, Math.floor(position))
+    const fraction = position - idx
+
+    const r = Math.round(stops[idx][0] + fraction * (stops[idx + 1][0] - stops[idx][0]))
+    const g = Math.round(stops[idx][1] + fraction * (stops[idx + 1][1] - stops[idx][1]))
+    const b = Math.round(stops[idx][2] + fraction * (stops[idx + 1][2] - stops[idx][2]))
+
+    const offset = i * 4
+    lut[offset] = r
+    lut[offset + 1] = g
+    lut[offset + 2] = b
+    lut[offset + 3] = 255
+  }
+
+  cachedLut = lut
+  return lut
+}
